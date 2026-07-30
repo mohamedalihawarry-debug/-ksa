@@ -52,8 +52,8 @@
         }
 
         .icon {
-            width: 22px;
-            height: 22px;
+            width: 20px;
+            height: 20px;
             fill: currentColor;
             display: inline-block;
             vertical-align: middle;
@@ -63,7 +63,7 @@
         .hero-header-wrapper {
             position: relative;
             width: 100%;
-            min-height: 80vh;
+            min-height: 75vh;
             background: linear-gradient(135deg, rgba(15, 23, 42, 0.92), rgba(37, 99, 235, 0.82)), 
                         url('https://images.unsplash.com/photo-1472851294608-062f824d29cc?w=1600') center/cover no-repeat;
             display: flex;
@@ -74,7 +74,7 @@
 
         .announcement-bar {
             background: rgba(37, 99, 235, 0.95);
-            color: white; text-align: center; padding: 10px; font-size: 0.85rem; font-weight: 700;
+            color: white; text-align: center; padding: 8px; font-size: 0.8rem; font-weight: 700;
             backdrop-filter: blur(5px); width: 100%;
         }
 
@@ -83,28 +83,32 @@
             backdrop-filter: blur(12px);
             position: sticky; top: 0; z-index: 100;
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 12px 15px; width: 100%;
+            padding: 10px 12px; width: 100%;
         }
 
         .header-container {
-            max-width: 1100px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; gap: 10px; width: 100%;
+            max-width: 1100px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; gap: 8px; width: 100%;
         }
 
-        .logo { font-size: 1.2rem; font-weight: 800; color: #ffffff; display: flex; align-items: center; gap: 8px; white-space: nowrap; }
-        .header-actions { display: flex; align-items: center; gap: 8px; }
+        .logo { 
+            font-size: 1.05rem; font-weight: 800; color: #ffffff; 
+            display: flex; align-items: center; gap: 6px; white-space: nowrap; flex-shrink: 1;
+        }
+        
+        .header-actions { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
 
         .btn-icon {
             background: rgba(255, 255, 255, 0.15); border: 1px solid rgba(255, 255, 255, 0.2); color: white;
-            width: 40px; height: 40px; border-radius: 50%; cursor: pointer;
+            width: 38px; height: 38px; border-radius: 50%; cursor: pointer;
             display: flex; align-items: center; justify-content: center; backdrop-filter: blur(5px);
+            flex-shrink: 0;
         }
-
-        .admin-btn { background: #8b5cf6; border: none; }
 
         .cart-btn {
             background: var(--primary); color: white; border: none;
-            padding: 6px 14px; border-radius: 30px; cursor: pointer;
-            display: flex; align-items: center; gap: 8px; font-weight: 700; font-size: 0.85rem;
+            padding: 7px 14px; border-radius: 30px; cursor: pointer;
+            display: flex; align-items: center; gap: 6px; font-weight: 700; font-size: 0.85rem;
+            flex-shrink: 0;
         }
 
         .cart-badge { background: var(--danger); color: white; border-radius: 50%; width: 20px; height: 20px; display: flex; align-items: center; justify-content: center; font-size: 0.75rem; }
@@ -114,38 +118,63 @@
             display: flex; flex-direction: column; align-items: center; justify-content: center; flex-grow: 1; width: 100%;
         }
 
-        .hero-title { font-size: 2.2rem; font-weight: 800; margin-bottom: 15px; line-height: 1.3; text-shadow: 0 4px 10px rgba(0,0,0,0.3); }
-        .hero-subtitle { font-size: 1.05rem; margin-bottom: 25px; opacity: 0.9; max-width: 600px; line-height: 1.6; }
+        .hero-title { font-size: 2.1rem; font-weight: 800; margin-bottom: 12px; line-height: 1.3; text-shadow: 0 4px 10px rgba(0,0,0,0.3); }
+        .hero-subtitle { font-size: 1rem; margin-bottom: 20px; opacity: 0.9; max-width: 600px; line-height: 1.6; }
         
         .scroll-down-btn {
             background: rgba(255, 255, 255, 0.2); color: white; border: 1px solid rgba(255,255,255,0.4);
-            padding: 12px 28px; border-radius: 30px; font-size: 0.95rem; font-weight: 700;
+            padding: 10px 24px; border-radius: 30px; font-size: 0.9rem; font-weight: 700;
             cursor: pointer; text-decoration: none; backdrop-filter: blur(10px);
             display: inline-flex; align-items: center; gap: 8px; transition: all 0.3s ease;
         }
-        .scroll-down-btn:hover { background: white; color: var(--dark); }
 
-        /* --- أيقونة الواتساب العائمة والمعدلة بالكامل --- */
-        .whatsapp-float {
-            position: fixed; bottom: 20px; left: 20px; background-color: #25d366; color: white;
-            width: 55px; height: 55px; border-radius: 50%; text-align: center;
-            box-shadow: 0 8px 20px rgba(37, 211, 102, 0.35); z-index: 150;
-            display: flex; align-items: center; justify-content: center; text-decoration: none;
-            transition: transform 0.3s ease;
+        /* --- الأزرار العائمة في الأسفل (الواتساب + إضافة المنتج) --- */
+        .floating-buttons-stack {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            z-index: 150;
+            align-items: center;
         }
-        .whatsapp-float:hover { transform: scale(1.1); }
-        .whatsapp-float svg { width: 30px; height: 30px; fill: white; }
+
+        .floating-btn {
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+            transition: transform 0.2s ease;
+            text-decoration: none;
+        }
+        .floating-btn:active { transform: scale(0.92); }
+
+        .admin-float-btn {
+            background: #8b5cf6;
+        }
+
+        .whatsapp-float-btn {
+            background-color: #25d366;
+        }
+        .whatsapp-float-btn svg { width: 28px; height: 28px; fill: white; }
 
         /* --- محتوى المتجر --- */
-        .container { width: 100%; max-width: 900px; margin: 30px auto; padding: 0 15px; flex: 1; }
+        .container { width: 100%; max-width: 900px; margin: 25px auto; padding: 0 15px; flex: 1; }
         .search-section { margin-bottom: 20px; width: 100%; }
         .search-box { position: relative; width: 100%; }
         .search-box input {
-            width: 100%; padding: 14px 45px 14px 15px; border-radius: 12px;
+            width: 100%; padding: 12px 42px 12px 15px; border-radius: 12px;
             border: 1px solid var(--border-color); background: var(--bg-card); color: var(--text-color);
-            font-size: 0.95rem; outline: none; box-shadow: var(--shadow);
+            font-size: 0.9rem; outline: none; box-shadow: var(--shadow);
         }
-        .search-box .search-icon { position: absolute; right: 15px; top: 50%; transform: translateY(-50%); color: var(--gray); }
+        .search-box .search-icon { position: absolute; right: 14px; top: 50%; transform: translateY(-50%); color: var(--gray); }
 
         .categories-wrapper { display: flex; align-items: center; gap: 10px; margin-bottom: 25px; width: 100%; }
         .categories-bar { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 5px; flex: 1; scrollbar-width: none; }
@@ -153,13 +182,13 @@
 
         .category-btn {
             background: var(--bg-card); border: 1px solid var(--border-color); color: var(--text-color);
-            padding: 9px 16px; border-radius: 30px; font-weight: 700; cursor: pointer; white-space: nowrap;
+            padding: 8px 16px; border-radius: 30px; font-weight: 700; cursor: pointer; white-space: nowrap;
             display: flex; align-items: center; gap: 8px; font-size: 0.85rem;
         }
         .category-btn.active { background: var(--primary); color: white; border-color: var(--primary); }
 
         .add-category-btn {
-            background: #10b981; color: white; border: none; padding: 9px 14px;
+            background: #10b981; color: white; border: none; padding: 8px 14px;
             border-radius: 30px; font-weight: 700; cursor: pointer; white-space: nowrap;
             display: flex; align-items: center; gap: 6px; font-size: 0.85rem; flex-shrink: 0;
         }
@@ -172,7 +201,7 @@
             display: flex; flex-direction: column; width: 100%;
         }
 
-        .product-img-wrapper { position: relative; width: 100%; height: 250px; background: #e2e8f0; }
+        .product-img-wrapper { position: relative; width: 100%; height: 240px; background: #e2e8f0; }
         .product-img { width: 100%; height: 100%; object-fit: cover; display: block; }
 
         .product-info { padding: 18px; display: flex; flex-direction: column; gap: 12px; }
@@ -200,7 +229,6 @@
         .form-group label { display: block; font-size: 0.85rem; font-weight: 700; margin-bottom: 6px; }
         .form-group input, .form-group select { width: 100%; padding: 12px; border: 1px solid var(--border-color); border-radius: 10px; outline: none; background: var(--bg-card); color: var(--text-color); font-size: 0.95rem; }
         
-        /* تنسيق خانة التقاط الصورة */
         .image-upload-box {
             border: 2px dashed var(--border-color); padding: 15px; border-radius: 10px; text-align: center; cursor: pointer; background: rgba(0,0,0,0.02);
         }
@@ -225,9 +253,6 @@
                         المتجر الاحترافي
                     </div>
                     <div class="header-actions">
-                        <button class="btn-icon admin-btn" onclick="openAdminModal()" title="إضافة منتج">
-                            <svg class="icon" viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
-                        </button>
                         <button class="btn-icon" onclick="toggleTheme()" title="الوضع الداكن">
                             <svg class="icon" viewBox="0 0 24 24"><path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9c0-.46-.04-.92-.1-1.36-.98 1.37-2.58 2.26-4.4 2.26-2.98 0-5.4-2.42-5.4-5.4 0-1.81.89-3.42 2.26-4.4-.44-.06-.9-.1-1.36-.1z"/></svg>
                         </button>
@@ -251,12 +276,20 @@
         </div>
     </div>
 
-    <!-- أيقونة الواتساب العائمة والمحدثة برمجياً -->
-    <a href="https://wa.me/966500000000" class="whatsapp-float" target="_blank" title="تواصل معنا عبر الواتساب">
-        <svg viewBox="0 0 32 32">
-            <path d="M16 2a13 13 0 0 0-11 20l-2 7 7-2a13 13 0 1 0 6-25zm0 24a11 11 0 0 1-5.6-1.5l-.4-.2-4.2 1.1 1.1-4.1-.3-.4A11 11 0 1 1 16 26zm6-8c-.3-.2-1.9-.9-2.2-1s-.5-.2-.7.2-.8 1-1 1.2-.4.2-.7 0a9 9 0 0 1-2.6-1.6 10 10 0 0 1-1.8-2.3c-.2-.3 0-.5.1-.6l.5-.6c.1-.2.2-.3.3-.5a.4.4 0 0 0 0-.4c-.1-.2-.7-1.7-1-2.3s-.5-.5-.7-.5h-.6a1.2 1.2 0 0 0-.9.4 3.7 3.7 0 0 0-1.2 2.8 6.4 6.4 0 0 0 1.4 3.4 14.6 14.6 0 0 0 5.6 5 18 18 0 0 0 1.9.7 4.5 4.5 0 0 0 2.1.1 3.4 3.4 0 0 0 2.2-1.6 2.8 2.8 0 0 0 .2-1.6c-.2-.1-.5-.2-.8-.3z"/>
-        </svg>
-    </a>
+    <!-- مصفوفة الأزرار العائمة (إضافة منتج + الواتساب) -->
+    <div class="floating-buttons-stack">
+        <!-- زر إضافة منتج فوق الواتساب -->
+        <button class="floating-btn admin-float-btn" onclick="openAdminModal()" title="إضافة/تعديل منتج">
+            <svg class="icon" style="width: 24px; height: 24px;" viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+        </button>
+
+        <!-- أيقونة الواتساب -->
+        <a href="https://wa.me/966500000000" class="floating-btn whatsapp-float-btn" target="_blank" title="تواصل معنا عبر الواتساب">
+            <svg viewBox="0 0 32 32">
+                <path d="M16 2a13 13 0 0 0-11 20l-2 7 7-2a13 13 0 1 0 6-25zm0 24a11 11 0 0 1-5.6-1.5l-.4-.2-4.2 1.1 1.1-4.1-.3-.4A11 11 0 1 1 16 26zm6-8c-.3-.2-1.9-.9-2.2-1s-.5-.2-.7.2-.8 1-1 1.2-.4.2-.7 0a9 9 0 0 1-2.6-1.6 10 10 0 0 1-1.8-2.3c-.2-.3 0-.5.1-.6l.5-.6c.1-.2.2-.3.3-.5a.4.4 0 0 0 0-.4c-.1-.2-.7-1.7-1-2.3s-.5-.5-.7-.5h-.6a1.2 1.2 0 0 0-.9.4 3.7 3.7 0 0 0-1.2 2.8 6.4 6.4 0 0 0 1.4 3.4 14.6 14.6 0 0 0 5.6 5 18 18 0 0 0 1.9.7 4.5 4.5 0 0 0 2.1.1 3.4 3.4 0 0 0 2.2-1.6 2.8 2.8 0 0 0 .2-1.6c-.2-.1-.5-.2-.8-.3z"/>
+            </svg>
+        </a>
+    </div>
 
     <!-- القسم الرئيسي للمتجر -->
     <div class="container" id="storeSection">
@@ -325,7 +358,6 @@
                     <input type="number" id="prodPrice" required placeholder="0.00">
                 </div>
                 
-                <!-- خيار التصوير والرفع للمنتج -->
                 <div class="form-group">
                     <label>صورة المنتج (تصوير أو رفع من الجهاز) *</label>
                     <div class="image-upload-box" onclick="document.getElementById('fileInput').click()">
@@ -406,7 +438,6 @@
         function saveCategoriesToStorage() { localStorage.setItem('myStoreCategories', JSON.stringify(categories)); }
         function saveProductsToStorage() { localStorage.setItem('myStoreProducts', JSON.stringify(products)); }
 
-        // التفاعل مع تصوير ورُفع صورة المنتج
         function handleImageUpload(e) {
             const file = e.target.files[0];
             if(file) {
