@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>متجر الهواري الإلكتروني | elHawarry Store</title>
+    <title>متجر الهواري الإلكتروني | hawarry Store</title>
     <!-- خط تاجوال الاحترافي -->
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
     <!-- أيقونات FontAwesome -->
@@ -202,7 +202,7 @@
 
                 <div id="bankDetails" style="display:none; background:#f8fafc; padding:10px; border-radius:8px; font-size:0.85rem; margin-bottom:10px;">
                     <p><b>مصرف الراجحي:</b> SA0000000000000000000000</p>
-                    <p><b>اسم الحساب:</b> متجر شادي</p>
+                    <p><b>اسم الحساب:</b> متجر الهواري</p>
                     <small style="color:var(--gray);">يرجى تحويل المبلغ وتحضير صورة الإيصال عند التسليم.</small>
                 </div>
 
@@ -251,10 +251,19 @@
 
         function addToCart(id) {
             const item = cart.find(c => c.id === id);
-            if(item) { item.qty++; } 
-            else {
+            if(item) { 
+                item.qty++; 
+            } else {
                 const p = products.find(prod => prod.id === id);
                 cart.push({...p, qty: 1});
+            }
+            updateCart();
+        }
+
+        function changeQty(index, change) {
+            cart[index].qty += change;
+            if (cart[index].qty <= 0) {
+                cart.splice(index, 1);
             }
             updateCart();
         }
@@ -262,21 +271,34 @@
         function updateCart() {
             document.getElementById('cartBadge').innerText = cart.reduce((s, i) => s + i.qty, 0);
             const list = document.getElementById('cartItemsList');
+            
             if(cart.length === 0) {
                 list.innerHTML = `<p style="text-align:center; color:var(--gray);">السلة فارغة حالياً</p>`;
                 document.getElementById('cartSubtotal').innerText = "0 ر.س";
                 return;
             }
+            
             let subtotal = 0;
-            list.innerHTML = cart.map(item => {
+            list.innerHTML = cart.map((item, index) => {
                 subtotal += item.price * item.qty;
                 return `
                     <div class="cart-item">
-                        <div><b>${item.name}</b> <br><small>${item.price} × ${item.qty}</small></div>
-                        <div><b>${item.price * item.qty} ر.س</b></div>
+                        <div>
+                            <b>${item.name}</b><br>
+                            <small style="color:var(--gray);">${item.price} ر.س / القطعة</small>
+                        </div>
+                        <div style="display:flex; align-items:center; gap:8px;">
+                            <div style="display:flex; align-items:center; background:#f1f5f9; border-radius:6px; padding:2px 6px;">
+                                <button type="button" onclick="changeQty(${index}, -1)" style="border:none; background:none; font-weight:bold; cursor:pointer; padding:2px 6px;">-</button>
+                                <span style="padding:0 5px; font-weight:bold;">${item.qty}</span>
+                                <button type="button" onclick="changeQty(${index}, 1)" style="border:none; background:none; font-weight:bold; cursor:pointer; padding:2px 6px;">+</button>
+                            </div>
+                            <b style="min-width:65px; text-align:left;">${item.price * item.qty} ر.س</b>
+                        </div>
                     </div>
                 `;
             }).join('');
+            
             document.getElementById('cartSubtotal').innerText = `${subtotal} ر.س`;
         }
 
@@ -307,7 +329,6 @@
             const orderNum = 'ORD-' + Math.floor(10000 + Math.random() * 90000);
             document.getElementById('orderNumDisplay').innerText = `رقم الفاتورة: #${orderNum}`;
             
-            // هنا يتم تفريغ السلة وإغلاق الشاشات
             cart = [];
             updateCart();
             closeCheckout();
