@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>متجر إلكتروني احترافي | جاهز للتسليم</title>
+    <title>المتجر الموثوق | معرض الصور المطور</title>
     <!-- خط تاجوال الاحترافي -->
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
     <!-- أيقونات FontAwesome -->
@@ -77,7 +77,18 @@
             box-shadow: var(--shadow); border: 1px solid #f1f5f9; display: flex; flex-direction: column;
         }
 
-        .product-img { width: 100%; height: 180px; object-fit: cover; }
+        .product-img-wrapper {
+            position: relative; cursor: pointer; overflow: hidden; height: 200px; background: #e2e8f0;
+        }
+
+        .product-img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s ease; }
+        .product-img-wrapper:hover .product-img { transform: scale(1.05); }
+
+        .img-count-badge {
+            position: absolute; bottom: 8px; left: 8px; background: rgba(15, 23, 42, 0.7);
+            color: white; padding: 3px 8px; border-radius: 12px; font-size: 0.75rem; font-weight: bold;
+        }
+
         .product-info { padding: 15px; display: flex; flex-direction: column; flex-grow: 1; }
         .product-title { font-size: 1rem; font-weight: 700; margin-bottom: 6px; }
         .product-price { font-size: 1.15rem; font-weight: 800; color: var(--secondary); margin-bottom: 12px; }
@@ -87,10 +98,10 @@
             padding: 10px; border-radius: 8px; cursor: pointer; font-weight: 700; width: 100%;
         }
 
-        /* Modal */
+        /* Modal العام */
         .modal {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(4px);
+            background: rgba(15, 23, 42, 0.7); backdrop-filter: blur(4px);
             z-index: 200; justify-content: center; align-items: center; padding: 15px;
         }
 
@@ -101,31 +112,45 @@
 
         .modal-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #e2e8f0; padding-bottom: 10px; margin-bottom: 15px; }
 
-        .cart-item { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; padding-bottom: 10px; border-bottom: 1px solid #f1f5f9; }
+        /* نافذة معرض الصور (Lightbox Modal) */
+        .gallery-box { text-align: center; position: relative; }
+        
+        .main-gallery-img-container {
+            position: relative; width: 100%; height: 280px; background: #f1f5f9;
+            border-radius: var(--radius); overflow: hidden; margin-bottom: 12px;
+        }
 
+        .main-gallery-img { width: 100%; height: 100%; object-fit: cover; }
+
+        .nav-arrow {
+            position: absolute; top: 50%; transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.8); border: none; width: 36px; height: 36px;
+            border-radius: 50%; cursor: pointer; font-size: 1rem; color: var(--dark);
+            display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        .nav-arrow.prev { right: 10px; }
+        .nav-arrow.next { left: 10px; }
+
+        .thumbnails-container {
+            display: flex; gap: 8px; justify-content: center; overflow-x: auto; padding: 5px 0;
+        }
+
+        .thumb-img {
+            width: 55px; height: 55px; border-radius: 8px; object-fit: cover;
+            cursor: pointer; border: 2px solid transparent; opacity: 0.6; transition: 0.2s;
+        }
+
+        .thumb-img.active { border-color: var(--primary); opacity: 1; }
+
+        /* الشراء والسلة */
+        .cart-item { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; padding-bottom: 10px; border-bottom: 1px solid #f1f5f9; }
         .form-group { margin-bottom: 12px; }
         .form-group label { display: block; font-size: 0.85rem; font-weight: 700; margin-bottom: 5px; }
-        .form-group input, .form-group select {
-            width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 0.9rem; outline: none;
-        }
-
+        .form-group input { width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 0.9rem; outline: none; }
         .payment-options { display: flex; gap: 10px; margin-top: 8px; }
-        .payment-option {
-            flex: 1; border: 1px solid #cbd5e1; padding: 10px; border-radius: 8px;
-            text-align: center; cursor: pointer; font-size: 0.85rem; font-weight: 700;
-        }
+        .payment-option { flex: 1; border: 1px solid #cbd5e1; padding: 10px; border-radius: 8px; text-align: center; cursor: pointer; font-size: 0.85rem; font-weight: 700; }
         .payment-option.active { border-color: var(--primary); background: #eff6ff; color: var(--primary); }
-
         .btn-success { background: var(--secondary); color: white; border: none; width: 100%; padding: 12px; border-radius: 8px; font-weight: 800; cursor: pointer; font-size: 1rem; margin-top: 10px; }
-        .btn-success:disabled { background: var(--gray); cursor: not-allowed; }
-
-        .security-badge {
-            display: flex; align-items: center; justify-content: center; gap: 6px;
-            font-size: 0.75rem; color: var(--gray); margin-top: 10px; background: #f8fafc; padding: 6px; border-radius: 6px;
-        }
-
-        .error-msg { color: #dc2626; font-size: 0.75rem; display: none; margin-top: 4px; }
-
         .success-box { text-align: center; padding: 20px 0; }
         .success-icon { font-size: 3rem; color: var(--secondary); margin-bottom: 10px; }
         .order-number { background: #f1f5f9; padding: 8px 15px; border-radius: 20px; display: inline-block; font-weight: 800; margin: 10px 0; }
@@ -146,12 +171,34 @@
 
     <div class="hero">
         <h1>تسوق بأمان وسهولة</h1>
-        <p>منتجات مضمونة مع خيارات دفع مرنة وشحن سريع لجميع المناطق</p>
+        <p>منتجات مضمونة مع استعراض شامل للصور بدقة عالية</p>
     </div>
 
     <div class="container">
         <h3 style="margin-bottom: 15px;">المنتجات المتاحة</h3>
         <div class="products-grid" id="productsGrid"></div>
+    </div>
+
+    <!-- نافذة معرض الصور (Image Gallery Modal) -->
+    <div class="modal" id="galleryModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="galleryTitle">معرض الصور</h3>
+                <i class="fa-solid fa-xmark" style="cursor: pointer; font-size: 1.2rem;" onclick="closeGallery()"></i>
+            </div>
+            <div class="gallery-box">
+                <div class="main-gallery-img-container">
+                    <img id="currentGalleryImg" class="main-gallery-img" src="">
+                    <button class="nav-arrow prev" onclick="prevImage()"><i class="fa-solid fa-chevron-right"></i></button>
+                    <button class="nav-arrow next" onclick="nextImage()"><i class="fa-solid fa-chevron-left"></i></button>
+                </div>
+                <div class="thumbnails-container" id="thumbnailsList"></div>
+                <div style="margin-top: 15px; text-align: right;">
+                    <div id="galleryPrice" style="font-size: 1.2rem; font-weight: 800; color: var(--secondary); margin-bottom: 8px;"></div>
+                    <button class="add-btn" id="galleryAddBtn">أضف للسلة</button>
+                </div>
+            </div>
+        </div>
     </div>
 
     <!-- نافذة السلة -->
@@ -172,7 +219,7 @@
         </div>
     </div>
 
-    <!-- نافذة إتمام الشراء الآمن -->
+    <!-- نافذة إتمام الشراء -->
     <div class="modal" id="checkoutModal">
         <div class="modal-content">
             <div class="modal-header">
@@ -183,21 +230,19 @@
             <form id="checkoutForm" onsubmit="submitOrder(event)">
                 <div class="form-group">
                     <label>الاسم الكامل *</label>
-                    <input type="text" id="custName" required placeholder="أدخل اسمك الثلاثي">
-                    <span class="error-msg" id="nameError">يرجى إدخال اسم صحيح.</span>
+                    <input type="text" id="custName" required placeholder="أدخل اسمك الكريم">
                 </div>
                 <div class="form-group">
-                    <label>رقم الجوال (سعودي) *</label>
+                    <label>رقم الجوال *</label>
                     <input type="tel" id="custPhone" required placeholder="05xxxxxxxx" maxlength="10">
-                    <span class="error-msg" id="phoneError">يرجى إدخال رقم جوال سعودي يبدأ بـ 05 ومكون من 10 أرقام.</span>
                 </div>
                 <div class="form-group">
-                    <label>المدينة والعنوان التفصيلي *</label>
+                    <label>المدينة والعنوان *</label>
                     <input type="text" id="custAddress" required placeholder="الرياض - حي الملز - شارع...">
                 </div>
 
                 <div class="form-group">
-                    <label>طريقة الدفع المتاحة</label>
+                    <label>طريقة الدفع</label>
                     <div class="payment-options">
                         <div class="payment-option active" id="optCOD" onclick="selectPayment('COD')">
                             <i class="fa-solid fa-hand-holding-dollar"></i><br>دفع عند الاستلام
@@ -208,28 +253,18 @@
                     </div>
                 </div>
 
-                <div id="bankDetails" style="display:none; background:#f8fafc; padding:10px; border-radius:8px; font-size:0.85rem; margin-bottom:10px; border:1px dashed #cbd5e1;">
-                    <p><b>مصرف الراجحي:</b> SA0000000000000000000000</p>
-                    <p><b>اسم الحساب:</b> مؤسسة المتجر الإلكتروني</p>
-                    <small style="color:var(--gray);">يرجى تحويل المبلغ وتأكيد الطلب.</small>
-                </div>
-
-                <button type="submit" class="btn-success" id="submitBtn">تأكيد ونقل الطلب الآن</button>
-
-                <div class="security-badge">
-                    <i class="fa-solid fa-lock"></i> جميع البيانات مشفرة وتخضع لسياسة الخصوصية
-                </div>
+                <button type="submit" class="btn-success" id="submitBtn">تأكيد الطلب الآن</button>
             </form>
         </div>
     </div>
 
-    <!-- نافذة تأكيد ونجاح الطلب -->
+    <!-- نافذة نجاح الطلب -->
     <div class="modal" id="successModal">
         <div class="modal-content">
             <div class="success-box">
                 <i class="fa-solid fa-circle-check success-icon"></i>
                 <h2>تم تأكيد طلبك بنجاح!</h2>
-                <p style="color:var(--gray); font-size:0.9rem; margin-top:5px;">تم إرسال الفاتورة لإدارة المتجر وسيتم التواصل معك مباشرة لتسليم الطلب.</p>
+                <p style="color:var(--gray); font-size:0.9rem; margin-top:5px;">سيتم التواصل معك مباشرة للتسليم.</p>
                 <div class="order-number" id="orderNumDisplay">رقم الفاتورة: #ORD-0000</div>
                 <br>
                 <button class="add-btn" onclick="closeSuccess()" style="margin-top:15px;">العودة للمتجر</button>
@@ -238,25 +273,52 @@
     </div>
 
     <script>
+        // إدخال كذا صورة لكل منتج داخل مصفوفة images
         const products = [
-            { id: 1, name: "سماعة لاسلكية احترافية", price: 199, img: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400" },
-            { id: 2, name: "ساعة رقمية رياضية", price: 249, img: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400" },
-            { id: 3, name: "شاحن سريع 65 واط", price: 89, img: "https://images.unsplash.com/photo-1583863788434-e58a36330cf0?w=400" }
+            { 
+                id: 1, 
+                name: "سماعة لاسلكية احترافية", 
+                price: 199, 
+                images: [
+                    "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=600",
+                    "https://images.unsplash.com/photo-1484704849700-f032a568e944?w=600",
+                    "https://images.unsplash.com/photo-1546435770-a3e426bf472b?w=600"
+                ] 
+            },
+            { 
+                id: 2, 
+                name: "ساعة رقمية رياضية", 
+                price: 249, 
+                images: [
+                    "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=600",
+                    "https://images.unsplash.com/photo-1510017803434-a899398421b3?w=600"
+                ] 
+            },
+            { 
+                id: 3, 
+                name: "شاحن سريع 65 واط", 
+                price: 89, 
+                images: [
+                    "https://images.unsplash.com/photo-1583863788434-e58a36330cf0?w=600"
+                ] 
+            }
         ];
 
         let cart = [];
         let selectedPaymentMethod = 'COD';
-
-        // حماية ودوال تنظيف البيانات لمنع XSS Injection
-        function sanitizeInput(str) {
-            return str.replace(/[^\w\s\u0600-\u06FF\s\-\.]/gi, '');
-        }
+        
+        // متناغير لمعرض الصور الحالي
+        let activeProduct = null;
+        let activeImageIndex = 0;
 
         function renderProducts() {
             const grid = document.getElementById('productsGrid');
             grid.innerHTML = products.map(p => `
                 <div class="product-card">
-                    <img src="${p.img}" class="product-img">
+                    <div class="product-img-wrapper" onclick="openGallery(${p.id})">
+                        <img src="${p.images[0]}" class="product-img" alt="${p.name}">
+                        <span class="img-count-badge"><i class="fa-solid fa-images"></i> ${p.images.length}</span>
+                    </div>
                     <div class="product-info">
                         <div class="product-title">${p.name}</div>
                         <div class="product-price">${p.price} ر.س</div>
@@ -266,6 +328,51 @@
             `).join('');
         }
 
+        // --- دوال معرض الصور (Lightbox Gallery) ---
+        function openGallery(productId) {
+            activeProduct = products.find(p => p.id === productId);
+            activeImageIndex = 0;
+            
+            document.getElementById('galleryTitle').innerText = activeProduct.name;
+            document.getElementById('galleryPrice').innerText = `${activeProduct.price} ر.س`;
+            document.getElementById('galleryAddBtn').onclick = function() {
+                addToCart(activeProduct.id);
+                closeGallery();
+            };
+
+            updateGalleryUI();
+            document.getElementById('galleryModal').style.display = 'flex';
+        }
+
+        function updateGalleryUI() {
+            document.getElementById('currentGalleryImg').src = activeProduct.images[activeImageIndex];
+            
+            const thumbsList = document.getElementById('thumbnailsList');
+            thumbsList.innerHTML = activeProduct.images.map((img, idx) => `
+                <img src="${img}" class="thumb-img ${idx === activeImageIndex ? 'active' : ''}" onclick="selectImage(${idx})">
+            `).join('');
+        }
+
+        function selectImage(index) {
+            activeImageIndex = index;
+            updateGalleryUI();
+        }
+
+        function nextImage() {
+            activeImageIndex = (activeImageIndex + 1) % activeProduct.images.length;
+            updateGalleryUI();
+        }
+
+        function prevImage() {
+            activeImageIndex = (activeImageIndex - 1 + activeProduct.images.length) % activeProduct.images.length;
+            updateGalleryUI();
+        }
+
+        function closeGallery() {
+            document.getElementById('galleryModal').style.display = 'none';
+        }
+
+        // --- دوال السلة وإتمام الطلب ---
         function addToCart(id) {
             const item = cart.find(c => c.id === id);
             if(item) { item.qty++; } 
@@ -335,55 +442,16 @@
             selectedPaymentMethod = method;
             document.getElementById('optCOD').classList.toggle('active', method === 'COD');
             document.getElementById('optBank').classList.toggle('active', method === 'Bank');
-            document.getElementById('bankDetails').style.display = method === 'Bank' ? 'block' : 'none';
         }
 
         function submitOrder(e) {
             e.preventDefault();
-
-            const nameInput = document.getElementById('custName').value.trim();
-            const phoneInput = document.getElementById('custPhone').value.trim();
-            const addressInput = document.getElementById('custAddress').value.trim();
-
-            // فحص أمان أرقام الجوال السعودية (05xxxxxxxx)
-            const phoneRegex = /^05\d{8}$/;
-            if (!phoneRegex.test(phoneInput)) {
-                document.getElementById('phoneError').style.display = 'block';
-                return;
-            } else {
-                document.getElementById('phoneError').style.display = 'none';
-            }
-
-            const cleanName = sanitizeInput(nameInput);
-            const cleanAddress = sanitizeInput(addressInput);
             const orderNum = 'ORD-' + Math.floor(10000 + Math.random() * 90000);
-
-            document.getElementById('submitBtn').disabled = true;
-            document.getElementById('submitBtn').innerText = "جاري الحفظ والإرسال...";
-
-            // إعداد ملخص الطلب
-            let itemsSummary = cart.map(i => `${i.name} (${i.qty}×${i.price})`).join(' ، ');
-            let totalAmount = cart.reduce((s, i) => s + (i.price * i.qty), 0);
-
-            // إرسال البيانات (جاهزة لتوجيهها لـ Webhook أو الإيميل الخاص بصاحب المتجر الجديد)
-            console.log("جديد: تم استلام طلب برقم فاتورة:", orderNum, {
-                customer: cleanName,
-                phone: phoneInput,
-                address: cleanAddress,
-                payment: selectedPaymentMethod,
-                items: itemsSummary,
-                total: totalAmount
-            });
-
-            setTimeout(() => {
-                document.getElementById('orderNumDisplay').innerText = `رقم الفاتورة: #${orderNum}`;
-                cart = [];
-                updateCart();
-                closeCheckout();
-                document.getElementById('submitBtn').disabled = false;
-                document.getElementById('submitBtn').innerText = "تأكيد ونقل الطلب الآن";
-                document.getElementById('successModal').style.display = 'flex';
-            }, 800);
+            document.getElementById('orderNumDisplay').innerText = `رقم الفاتورة: #${orderNum}`;
+            cart = [];
+            updateCart();
+            closeCheckout();
+            document.getElementById('successModal').style.display = 'flex';
         }
 
         function closeSuccess() {
