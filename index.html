@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>المتجر الموثوق | معرض الصور المطور</title>
+    <title>المتجر الموثوق | معرض الصور وسوشيال ميديا</title>
     <!-- خط تاجوال الاحترافي -->
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
-    <!-- أيقونات FontAwesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- أيقونات FontAwesome أحدث إصدار -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     
     <style>
         :root {
@@ -32,7 +32,9 @@
         body {
             background-color: var(--light);
             color: var(--dark);
-            padding-bottom: 60px;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
         }
 
         header {
@@ -66,10 +68,10 @@
         .hero h1 { font-size: 2rem; font-weight: 800; margin-bottom: 8px; }
         .hero p { font-size: 1rem; opacity: 0.9; }
 
-        .container { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 20px; flex: 1; }
 
         .products-grid {
-            display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 20px;
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 20px; margin-bottom: 40px;
         }
 
         .product-card {
@@ -98,6 +100,85 @@
             padding: 10px; border-radius: 8px; cursor: pointer; font-weight: 700; width: 100%;
         }
 
+        /* --- تصميم قسم التواصل والسوشيال ميديا (Footer) --- */
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 40px 20px 20px;
+            margin-top: auto;
+        }
+
+        .footer-container {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            text-align: center;
+        }
+
+        .footer-title {
+            font-size: 1.2rem;
+            font-weight: 800;
+        }
+
+        .footer-desc {
+            color: var(--gray);
+            font-size: 0.9rem;
+            max-width: 500px;
+        }
+
+        .social-links {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 12px;
+            margin: 10px 0;
+        }
+
+        .social-btn {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .social-btn:hover {
+            transform: translateY(-4px);
+        }
+
+        /* ألوان أيقونات التواصل الرسمية عند تحريك الماوس */
+        .social-btn.whatsapp:hover { background: #25D366; }
+        .social-btn.telegram:hover { background: #0088cc; }
+        .social-btn.instagram:hover { background: #E1306C; }
+        .social-btn.x-twitter:hover { background: #000000; border: 1px solid #333; }
+        .social-btn.tiktok:hover { background: #00f2fe; color: #000; }
+        .social-btn.snapchat:hover { background: #FFFC00; color: #000; }
+        .social-btn.youtube:hover { background: #FF0000; }
+        .social-btn.facebook:hover { background: #1877F2; }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            width: 100%;
+            padding-top: 20px;
+            margin-top: 10px;
+            font-size: 0.8rem;
+            color: var(--gray);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
         /* Modal العام */
         .modal {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
@@ -112,37 +193,18 @@
 
         .modal-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #e2e8f0; padding-bottom: 10px; margin-bottom: 15px; }
 
-        /* نافذة معرض الصور (Lightbox Modal) */
+        /* معرض الصور Modal */
         .gallery-box { text-align: center; position: relative; }
-        
-        .main-gallery-img-container {
-            position: relative; width: 100%; height: 280px; background: #f1f5f9;
-            border-radius: var(--radius); overflow: hidden; margin-bottom: 12px;
-        }
-
+        .main-gallery-img-container { position: relative; width: 100%; height: 280px; background: #f1f5f9; border-radius: var(--radius); overflow: hidden; margin-bottom: 12px; }
         .main-gallery-img { width: 100%; height: 100%; object-fit: cover; }
-
-        .nav-arrow {
-            position: absolute; top: 50%; transform: translateY(-50%);
-            background: rgba(255, 255, 255, 0.8); border: none; width: 36px; height: 36px;
-            border-radius: 50%; cursor: pointer; font-size: 1rem; color: var(--dark);
-            display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-        }
+        .nav-arrow { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(255, 255, 255, 0.8); border: none; width: 36px; height: 36px; border-radius: 50%; cursor: pointer; font-size: 1rem; color: var(--dark); display: flex; align-items: center; justify-content: center; }
         .nav-arrow.prev { right: 10px; }
         .nav-arrow.next { left: 10px; }
-
-        .thumbnails-container {
-            display: flex; gap: 8px; justify-content: center; overflow-x: auto; padding: 5px 0;
-        }
-
-        .thumb-img {
-            width: 55px; height: 55px; border-radius: 8px; object-fit: cover;
-            cursor: pointer; border: 2px solid transparent; opacity: 0.6; transition: 0.2s;
-        }
-
+        .thumbnails-container { display: flex; gap: 8px; justify-content: center; overflow-x: auto; padding: 5px 0; }
+        .thumb-img { width: 55px; height: 55px; border-radius: 8px; object-fit: cover; cursor: pointer; border: 2px solid transparent; opacity: 0.6; }
         .thumb-img.active { border-color: var(--primary); opacity: 1; }
 
-        /* الشراء والسلة */
+        /* السلة والشيك أوت */
         .cart-item { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; padding-bottom: 10px; border-bottom: 1px solid #f1f5f9; }
         .form-group { margin-bottom: 12px; }
         .form-group label { display: block; font-size: 0.85rem; font-weight: 700; margin-bottom: 5px; }
@@ -179,7 +241,56 @@
         <div class="products-grid" id="productsGrid"></div>
     </div>
 
-    <!-- نافذة معرض الصور (Image Gallery Modal) -->
+    <!-- أسفل المتجر: قسم شبكات التواصل الاجتماعي (Social Media Footer) -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-title"><i class="fa-solid fa-headset"></i> تواصل معنا عبر وسائل التواصل</div>
+            <p class="footer-desc">نحن هنا لمساعدتك في أي وقت، يمكنك التواصل معنا أو متابعتنا عبر منصاتنا الرسمية التالي:</p>
+
+            <!-- أزرار التواصل -->
+            <div class="social-links">
+                <!-- الواتساب -->
+                <a href="https://wa.me/966500000000" target="_blank" class="social-btn whatsapp" title="WhatsApp">
+                    <i class="fa-brands fa-whatsapp"></i>
+                </a>
+                <!-- تيليجرام -->
+                <a href="https://t.me/yourusername" target="_blank" class="social-btn telegram" title="Telegram">
+                    <i class="fa-brands fa-telegram"></i>
+                </a>
+                <!-- إنستغرام -->
+                <a href="https://instagram.com/yourusername" target="_blank" class="social-btn instagram" title="Instagram">
+                    <i class="fa-brands fa-instagram"></i>
+                </a>
+                <!-- منصة X / تويتر -->
+                <a href="https://x.com/yourusername" target="_blank" class="social-btn x-twitter" title="X (Twitter)">
+                    <i class="fa-brands fa-x-twitter"></i>
+                </a>
+                <!-- تيك توك -->
+                <a href="https://tiktok.com/@yourusername" target="_blank" class="social-btn tiktok" title="TikTok">
+                    <i class="fa-brands fa-tiktok"></i>
+                </a>
+                <!-- سناب شات -->
+                <a href="https://snapchat.com/add/yourusername" target="_blank" class="social-btn snapchat" title="Snapchat">
+                    <i class="fa-brands fa-snapchat"></i>
+                </a>
+                <!-- يوتيوب -->
+                <a href="https://youtube.com/@yourusername" target="_blank" class="social-btn youtube" title="YouTube">
+                    <i class="fa-brands fa-youtube"></i>
+                </a>
+                <!-- فيسبوك -->
+                <a href="https://facebook.com/yourusername" target="_blank" class="social-btn facebook" title="Facebook">
+                    <i class="fa-brands fa-facebook-f"></i>
+                </a>
+            </div>
+
+            <div class="footer-bottom">
+                <span>© جميع الحقوق محفوظة لـ المتجر الموثوق 2026</span>
+                <span><i class="fa-solid fa-lock"></i> تسوق آمن ومشفّر 100%</span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- نافذة معرض الصور Modal -->
     <div class="modal" id="galleryModal">
         <div class="modal-content">
             <div class="modal-header">
@@ -273,7 +384,6 @@
     </div>
 
     <script>
-        // إدخال كذا صورة لكل منتج داخل مصفوفة images
         const products = [
             { 
                 id: 1, 
@@ -306,8 +416,6 @@
 
         let cart = [];
         let selectedPaymentMethod = 'COD';
-        
-        // متناغير لمعرض الصور الحالي
         let activeProduct = null;
         let activeImageIndex = 0;
 
@@ -328,51 +436,32 @@
             `).join('');
         }
 
-        // --- دوال معرض الصور (Lightbox Gallery) ---
         function openGallery(productId) {
             activeProduct = products.find(p => p.id === productId);
             activeImageIndex = 0;
-            
             document.getElementById('galleryTitle').innerText = activeProduct.name;
             document.getElementById('galleryPrice').innerText = `${activeProduct.price} ر.س`;
             document.getElementById('galleryAddBtn').onclick = function() {
                 addToCart(activeProduct.id);
                 closeGallery();
             };
-
             updateGalleryUI();
             document.getElementById('galleryModal').style.display = 'flex';
         }
 
         function updateGalleryUI() {
             document.getElementById('currentGalleryImg').src = activeProduct.images[activeImageIndex];
-            
             const thumbsList = document.getElementById('thumbnailsList');
             thumbsList.innerHTML = activeProduct.images.map((img, idx) => `
                 <img src="${img}" class="thumb-img ${idx === activeImageIndex ? 'active' : ''}" onclick="selectImage(${idx})">
             `).join('');
         }
 
-        function selectImage(index) {
-            activeImageIndex = index;
-            updateGalleryUI();
-        }
+        function selectImage(index) { activeImageIndex = index; updateGalleryUI(); }
+        function nextImage() { activeImageIndex = (activeImageIndex + 1) % activeProduct.images.length; updateGalleryUI(); }
+        function prevImage() { activeImageIndex = (activeImageIndex - 1 + activeProduct.images.length) % activeProduct.images.length; updateGalleryUI(); }
+        function closeGallery() { document.getElementById('galleryModal').style.display = 'none'; }
 
-        function nextImage() {
-            activeImageIndex = (activeImageIndex + 1) % activeProduct.images.length;
-            updateGalleryUI();
-        }
-
-        function prevImage() {
-            activeImageIndex = (activeImageIndex - 1 + activeProduct.images.length) % activeProduct.images.length;
-            updateGalleryUI();
-        }
-
-        function closeGallery() {
-            document.getElementById('galleryModal').style.display = 'none';
-        }
-
-        // --- دوال السلة وإتمام الطلب ---
         function addToCart(id) {
             const item = cart.find(c => c.id === id);
             if(item) { item.qty++; } 
@@ -434,9 +523,7 @@
             document.getElementById('checkoutModal').style.display = 'flex';
         }
 
-        function closeCheckout() {
-            document.getElementById('checkoutModal').style.display = 'none';
-        }
+        function closeCheckout() { document.getElementById('checkoutModal').style.display = 'none'; }
 
         function selectPayment(method) {
             selectedPaymentMethod = method;
@@ -454,9 +541,7 @@
             document.getElementById('successModal').style.display = 'flex';
         }
 
-        function closeSuccess() {
-            document.getElementById('successModal').style.display = 'none';
-        }
+        function closeSuccess() { document.getElementById('successModal').style.display = 'none'; }
 
         renderProducts();
     </script>
