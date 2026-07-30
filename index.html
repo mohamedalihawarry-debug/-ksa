@@ -17,7 +17,7 @@
             --dark: #0f172a;
             --bg-body: #f8fafc;
             --bg-card: #ffffff;
-            --bg-header: rgba(15, 23, 42, 0.85);
+            --bg-header: rgba(15, 23, 42, 0.9);
             --text-color: #0f172a;
             --border-color: #e2e8f0;
             --gray: #64748b;
@@ -34,9 +34,11 @@
             --gray: #94a3b8;
         }
 
-        * {
+        /* تصفير الهوامش لضمان عدم وجود أي فراغ جانبي */
+        *, *::before, *::after {
             box-sizing: border-box;
-            margin: 0; padding: 0;
+            margin: 0;
+            padding: 0;
             font-family: 'Tajawal', sans-serif;
             transition: background-color 0.25s, color 0.25s;
         }
@@ -44,30 +46,29 @@
         html, body {
             width: 100%;
             max-width: 100%;
-            overflow-x: hidden; /* لمنع أي فراغات بيضاء أو التمرير الأفقي غير المرغوب فيه */
+            overflow-x: hidden;
             background-color: var(--bg-body);
             color: var(--text-color);
-            display: flex; 
-            flex-direction: column; 
+            display: flex;
+            flex-direction: column;
             min-height: 100vh;
         }
 
-        /* --- الواجهة العلوية كامة الشاشة وبدون فراغات --- */
+        /* --- واجهة الهيدر الترحيبية --- */
         .hero-header-wrapper {
             position: relative;
-            width: 100vw;
-            min-height: 100vh;
-            background: linear-gradient(135deg, rgba(15, 23, 42, 0.85), rgba(37, 99, 235, 0.75)), 
+            width: 100%;
+            min-height: 90vh;
+            background: linear-gradient(135deg, rgba(15, 23, 42, 0.88), rgba(37, 99, 235, 0.75)), 
                         url('https://images.unsplash.com/photo-1472851294608-062f824d29cc?w=1600') center/cover no-repeat;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
             color: white;
-            box-sizing: border-box;
         }
 
         .announcement-bar {
-            background: rgba(37, 99, 235, 0.9);
+            background: rgba(37, 99, 235, 0.95);
             color: white; text-align: center; padding: 10px; font-size: 0.85rem; font-weight: 700;
             backdrop-filter: blur(5px);
             width: 100%;
@@ -106,7 +107,6 @@
 
         .cart-badge { background: #ef4444; color: white; border-radius: 50%; width: 18px; height: 18px; display: flex; align-items: center; justify-content: center; font-size: 0.7rem; }
 
-        /* محتوى الترحيب في الهيدر */
         .hero-content {
             text-align: center;
             max-width: 800px;
@@ -135,14 +135,13 @@
 
         .hero-footer-spacer { height: 20px; }
 
-        /* --- محتوى المتجر الأساسي --- */
+        /* --- محتوى المتجر --- */
         .container { 
             width: 100%;
             max-width: 900px; 
             margin: 30px auto; 
             padding: 0 15px; 
             flex: 1; 
-            box-sizing: border-box;
         }
 
         .search-section { margin-bottom: 20px; width: 100%; }
@@ -171,7 +170,7 @@
             display: flex; align-items: center; gap: 6px; font-size: 0.85rem; flex-shrink: 0;
         }
 
-        /* --- المنتجات بطاقة تحت أخرى بصورة كاملة بدون فراغات --- */
+        /* --- بطاقات المنتجات بدون أي فراغات --- */
         .products-list {
             display: flex;
             flex-direction: column;
@@ -196,7 +195,7 @@
             cursor: pointer;
             overflow: hidden;
             width: 100%;
-            height: 220px;
+            height: 240px;
             background: #e2e8f0;
         }
 
@@ -205,33 +204,32 @@
         .img-badge {
             position: absolute; bottom: 10px; right: 10px;
             background: rgba(15, 23, 42, 0.75); backdrop-filter: blur(4px);
-            color: white; padding: 3px 10px; border-radius: 12px; font-size: 0.75rem;
+            color: white; padding: 4px 12px; border-radius: 12px; font-size: 0.75rem;
         }
 
-        .product-info { padding: 15px; display: flex; flex-direction: column; gap: 10px; }
-        .product-title { font-size: 1.05rem; font-weight: 700; line-height: 1.4; text-align: center; }
-        .product-price { font-size: 1.2rem; font-weight: 800; color: var(--secondary); text-align: center; }
+        .product-info { padding: 18px; display: flex; flex-direction: column; gap: 12px; }
+        .product-title { font-size: 1.1rem; font-weight: 700; line-height: 1.4; text-align: center; }
+        .product-price { font-size: 1.25rem; font-weight: 800; color: var(--secondary); text-align: center; }
 
         .action-btns { display: flex; gap: 10px; width: 100%; }
-        .add-btn { background: var(--primary); color: white; border: none; padding: 10px; border-radius: 10px; cursor: pointer; font-weight: 700; flex: 1; font-size: 0.9rem; }
-        .quick-buy-btn { background: var(--secondary); color: white; border: none; padding: 10px; border-radius: 10px; cursor: pointer; font-weight: 700; flex: 1; font-size: 0.9rem; }
+        .add-btn { background: var(--primary); color: white; border: none; padding: 11px; border-radius: 10px; cursor: pointer; font-weight: 700; flex: 1; font-size: 0.9rem; }
+        .quick-buy-btn { background: var(--secondary); color: white; border: none; padding: 11px; border-radius: 10px; cursor: pointer; font-weight: 700; flex: 1; font-size: 0.9rem; }
 
-        /* زر واتساب عائم */
+        /* زر الواتساب العائم */
         .whatsapp-float {
             position: fixed; bottom: 20px; left: 20px; background-color: #25d366; color: white;
-            width: 50px; height: 50px; border-radius: 50%; text-align: center; font-size: 28px;
+            width: 52px; height: 52px; border-radius: 50%; text-align: center; font-size: 28px;
             box-shadow: 0 5px 15px rgba(0,0,0,0.2); z-index: 150; display: flex; align-items: center; justify-content: center;
             text-decoration: none;
         }
 
-        /* --- الفوتر بكامل عرض الشاشة ومواقع التواصل بدون فراغات --- */
+        /* --- الفوتر وشريط التواصل الاجتماعية المنسق --- */
         footer {
             background: #0f172a;
             color: white;
-            padding: 30px 15px 20px;
-            width: 100vw;
+            padding: 35px 15px 25px;
+            width: 100%;
             margin-top: auto;
-            box-sizing: border-box;
         }
 
         .footer-container {
@@ -240,31 +238,31 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 15px;
+            gap: 18px;
             text-align: center;
             width: 100%;
         }
 
-        /* شريط أيقونات وسائل التواصل الاجتماعي المنسق */
         .social-links {
             display: flex;
             justify-content: center;
             align-items: center;
-            gap: 15px;
+            gap: 12px;
             margin: 5px 0 10px 0;
             width: 100%;
+            flex-wrap: wrap;
         }
 
         .social-icon {
-            width: 40px;
-            height: 40px;
+            width: 42px;
+            height: 42px;
             border-radius: 50%;
             background: rgba(255, 255, 255, 0.1);
             color: white;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.1rem;
+            font-size: 1.15rem;
             text-decoration: none;
             transition: all 0.3s ease;
             border: 1px solid rgba(255, 255, 255, 0.15);
@@ -275,12 +273,12 @@
             transform: translateY(-3px);
         }
 
-        /* النوافذ المنبثقة */
+        /* Modals النوافذ المنبثقة */
         .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.7); backdrop-filter: blur(4px); z-index: 200; justify-content: center; align-items: center; padding: 15px; }
-        .modal-content { background: var(--bg-card); color: var(--text-color); width: 100%; max-width: 480px; border-radius: var(--radius); padding: 20px; max-height: 90vh; overflow-y: auto; }
+        .modal-content { background: var(--bg-card); color: var(--text-color); width: 100%; max-width: 480px; border-radius: var(--radius); padding: 22px; max-height: 90vh; overflow-y: auto; }
         .modal-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color); padding-bottom: 12px; margin-bottom: 15px; }
 
-        .back-arrow-btn { background: none; border: none; color: var(--text-color); font-size: 1.1rem; cursor: pointer; display: flex; align-items: center; gap: 6px; font-weight: bold; }
+        .back-arrow-btn { background: none; border: none; color: var(--text-color); font-size: 1rem; cursor: pointer; display: flex; align-items: center; gap: 6px; font-weight: bold; }
 
         .form-group { margin-bottom: 14px; }
         .form-group label { display: block; font-size: 0.85rem; font-weight: 700; margin-bottom: 6px; }
@@ -291,7 +289,7 @@
 </head>
 <body>
 
-    <!-- الواجهة العلوية بحجم الشاشة كاملة (Hero Section) بدون أي فراغ جانبي -->
+    <!-- الواجهة العلوية كامة الشاشة وبدون انزياح -->
     <div class="hero-header-wrapper">
         <div>
             <div class="announcement-bar">🎉 أهلاً بك! شحن سريع وتوصيل لجميع المناطق</div>
@@ -327,12 +325,11 @@
         <div class="hero-footer-spacer"></div>
     </div>
 
-    <!-- زر الواتساب العائم -->
+    <!-- زر واتساب عائم -->
     <a href="https://wa.me/966500000000" class="whatsapp-float" target="_blank"><i class="fa-brands fa-whatsapp"></i></a>
 
-    <!-- محتوى قسم المنتجات -->
+    <!-- القسم الرئيسي لمنتجات المتجر -->
     <div class="container" id="storeSection">
-        <!-- البحث المباشر -->
         <div class="search-section">
             <div class="search-box">
                 <i class="fa-solid fa-magnifying-glass"></i>
@@ -340,7 +337,6 @@
             </div>
         </div>
 
-        <!-- الأقسام المتفاعلة -->
         <div class="categories-wrapper">
             <div class="categories-bar" id="categoriesContainer"></div>
             <button class="add-category-btn" onclick="openAddCategoryModal()">
@@ -348,21 +344,19 @@
             </button>
         </div>
 
-        <!-- عرض المنتجات تحت بعضها بالكامل -->
         <div class="products-list" id="productsGrid"></div>
     </div>
 
-    <!-- الفوتر مع أيقونات التواصل الاجتماعي بكامل عرض الصفحة -->
+    <!-- الفوتر وشبكات التواصل -->
     <footer>
         <div class="footer-container">
             <div style="font-weight: 800; font-size: 1rem;"><i class="fa-solid fa-headset"></i> خدمة العملاء والدعم الفني</div>
             
-            <!-- أيقونات مواقع التواصل الاجتماعي بدون فراغات -->
             <div class="social-links">
                 <a href="#" class="social-icon" title="فيسبوك"><i class="fa-brands fa-facebook-f"></i></a>
                 <a href="#" class="social-icon" title="إنستغرام"><i class="fa-brands fa-instagram"></i></a>
                 <a href="#" class="social-icon" title="تيك توك"><i class="fa-brands fa-tiktok"></i></a>
-                <a href="#" class="social-icon" title="تويتر (X)"><i class="fa-brands fa-x-twitter"></i></a>
+                <a href="#" class="social-icon" title="تويتر"><i class="fa-brands fa-x-twitter"></i></a>
                 <a href="#" class="social-icon" title="سناب شات"><i class="fa-brands fa-snapchat"></i></a>
             </div>
 
@@ -370,7 +364,7 @@
         </div>
     </footer>
 
-    <!-- النوافذ المنبثقة (Modals) -->
+    <!-- Modals -->
     <div class="modal" id="addCategoryModal">
         <div class="modal-content">
             <div class="modal-header">
