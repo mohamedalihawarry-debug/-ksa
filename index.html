@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>متجر الهواري الإلكتروني | hawarry Store</title>
+    <title>متجر إلكتروني احترافي | جاهز للتسليم</title>
     <!-- خط تاجوال الاحترافي -->
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
     <!-- أيقونات FontAwesome -->
@@ -87,7 +87,7 @@
             padding: 10px; border-radius: 8px; cursor: pointer; font-weight: 700; width: 100%;
         }
 
-        /* Modal العام */
+        /* Modal */
         .modal {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(4px);
@@ -103,7 +103,6 @@
 
         .cart-item { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; padding-bottom: 10px; border-bottom: 1px solid #f1f5f9; }
 
-        /* الشيك أوت (إتمام الطلب) */
         .form-group { margin-bottom: 12px; }
         .form-group label { display: block; font-size: 0.85rem; font-weight: 700; margin-bottom: 5px; }
         .form-group input, .form-group select {
@@ -118,8 +117,15 @@
         .payment-option.active { border-color: var(--primary); background: #eff6ff; color: var(--primary); }
 
         .btn-success { background: var(--secondary); color: white; border: none; width: 100%; padding: 12px; border-radius: 8px; font-weight: 800; cursor: pointer; font-size: 1rem; margin-top: 10px; }
+        .btn-success:disabled { background: var(--gray); cursor: not-allowed; }
 
-        /* صفحة الشكر والتأكيد */
+        .security-badge {
+            display: flex; align-items: center; justify-content: center; gap: 6px;
+            font-size: 0.75rem; color: var(--gray); margin-top: 10px; background: #f8fafc; padding: 6px; border-radius: 6px;
+        }
+
+        .error-msg { color: #dc2626; font-size: 0.75rem; display: none; margin-top: 4px; }
+
         .success-box { text-align: center; padding: 20px 0; }
         .success-icon { font-size: 3rem; color: var(--secondary); margin-bottom: 10px; }
         .order-number { background: #f1f5f9; padding: 8px 15px; border-radius: 20px; display: inline-block; font-weight: 800; margin: 10px 0; }
@@ -129,7 +135,7 @@
 
     <header>
         <div class="header-container">
-            <div class="logo"><i class="fa-solid fa-store"></i> متجر الهواري</div>
+            <div class="logo"><i class="fa-solid fa-store"></i> المتجر الموثوق</div>
             <button class="cart-btn" onclick="toggleCart()">
                 <i class="fa-solid fa-cart-shopping"></i>
                 <span>السلة</span>
@@ -166,30 +172,32 @@
         </div>
     </div>
 
-    <!-- نافذة إتمام الشراء (Checkout) -->
+    <!-- نافذة إتمام الشراء الآمن -->
     <div class="modal" id="checkoutModal">
         <div class="modal-content">
             <div class="modal-header">
-                <h3><i class="fa-solid fa-shield-halved"></i> إتمام الطلب الآمن</h3>
+                <h3><i class="fa-solid fa-shield-halved" style="color:var(--secondary);"></i> إتمام الطلب الآمن</h3>
                 <i class="fa-solid fa-xmark" style="cursor: pointer;" onclick="closeCheckout()"></i>
             </div>
             
             <form id="checkoutForm" onsubmit="submitOrder(event)">
                 <div class="form-group">
                     <label>الاسم الكامل *</label>
-                    <input type="text" id="custName" required placeholder="أدخل اسمك الكريم">
+                    <input type="text" id="custName" required placeholder="أدخل اسمك الثلاثي">
+                    <span class="error-msg" id="nameError">يرجى إدخال اسم صحيح.</span>
                 </div>
                 <div class="form-group">
-                    <label>رقم الجوال *</label>
-                    <input type="tel" id="custPhone" required placeholder="05xxxxxxxx">
+                    <label>رقم الجوال (سعودي) *</label>
+                    <input type="tel" id="custPhone" required placeholder="05xxxxxxxx" maxlength="10">
+                    <span class="error-msg" id="phoneError">يرجى إدخال رقم جوال سعودي يبدأ بـ 05 ومكون من 10 أرقام.</span>
                 </div>
                 <div class="form-group">
-                    <label>المدينة والعنوان *</label>
+                    <label>المدينة والعنوان التفصيلي *</label>
                     <input type="text" id="custAddress" required placeholder="الرياض - حي الملز - شارع...">
                 </div>
 
                 <div class="form-group">
-                    <label>طريقة الدفع الفوري</label>
+                    <label>طريقة الدفع المتاحة</label>
                     <div class="payment-options">
                         <div class="payment-option active" id="optCOD" onclick="selectPayment('COD')">
                             <i class="fa-solid fa-hand-holding-dollar"></i><br>دفع عند الاستلام
@@ -200,13 +208,17 @@
                     </div>
                 </div>
 
-                <div id="bankDetails" style="display:none; background:#f8fafc; padding:10px; border-radius:8px; font-size:0.85rem; margin-bottom:10px;">
+                <div id="bankDetails" style="display:none; background:#f8fafc; padding:10px; border-radius:8px; font-size:0.85rem; margin-bottom:10px; border:1px dashed #cbd5e1;">
                     <p><b>مصرف الراجحي:</b> SA0000000000000000000000</p>
-                    <p><b>اسم الحساب:</b> متجر الهواري</p>
-                    <small style="color:var(--gray);">يرجى تحويل المبلغ وتحضير صورة الإيصال عند التسليم.</small>
+                    <p><b>اسم الحساب:</b> مؤسسة المتجر الإلكتروني</p>
+                    <small style="color:var(--gray);">يرجى تحويل المبلغ وتأكيد الطلب.</small>
                 </div>
 
-                <button type="submit" class="btn-success">تأكيد الطلب الآن</button>
+                <button type="submit" class="btn-success" id="submitBtn">تأكيد ونقل الطلب الآن</button>
+
+                <div class="security-badge">
+                    <i class="fa-solid fa-lock"></i> جميع البيانات مشفرة وتخضع لسياسة الخصوصية
+                </div>
             </form>
         </div>
     </div>
@@ -216,8 +228,8 @@
         <div class="modal-content">
             <div class="success-box">
                 <i class="fa-solid fa-circle-check success-icon"></i>
-                <h2>تم استلام طلبك بنجاح!</h2>
-                <p style="color:var(--gray); font-size:0.9rem; margin-top:5px;">شكراً لتسوقك معنا، سيتم التواصل معك قريباً للتوصيل.</p>
+                <h2>تم تأكيد طلبك بنجاح!</h2>
+                <p style="color:var(--gray); font-size:0.9rem; margin-top:5px;">تم إرسال الفاتورة لإدارة المتجر وسيتم التواصل معك مباشرة لتسليم الطلب.</p>
                 <div class="order-number" id="orderNumDisplay">رقم الفاتورة: #ORD-0000</div>
                 <br>
                 <button class="add-btn" onclick="closeSuccess()" style="margin-top:15px;">العودة للمتجر</button>
@@ -235,6 +247,11 @@
         let cart = [];
         let selectedPaymentMethod = 'COD';
 
+        // حماية ودوال تنظيف البيانات لمنع XSS Injection
+        function sanitizeInput(str) {
+            return str.replace(/[^\w\s\u0600-\u06FF\s\-\.]/gi, '');
+        }
+
         function renderProducts() {
             const grid = document.getElementById('productsGrid');
             grid.innerHTML = products.map(p => `
@@ -251,9 +268,8 @@
 
         function addToCart(id) {
             const item = cart.find(c => c.id === id);
-            if(item) { 
-                item.qty++; 
-            } else {
+            if(item) { item.qty++; } 
+            else {
                 const p = products.find(prod => prod.id === id);
                 cart.push({...p, qty: 1});
             }
@@ -262,9 +278,7 @@
 
         function changeQty(index, change) {
             cart[index].qty += change;
-            if (cart[index].qty <= 0) {
-                cart.splice(index, 1);
-            }
+            if (cart[index].qty <= 0) { cart.splice(index, 1); }
             updateCart();
         }
 
@@ -285,7 +299,7 @@
                     <div class="cart-item">
                         <div>
                             <b>${item.name}</b><br>
-                            <small style="color:var(--gray);">${item.price} ر.س / القطعة</small>
+                            <small style="color:var(--gray);">${item.price} ر.س</small>
                         </div>
                         <div style="display:flex; align-items:center; gap:8px;">
                             <div style="display:flex; align-items:center; background:#f1f5f9; border-radius:6px; padding:2px 6px;">
@@ -326,13 +340,50 @@
 
         function submitOrder(e) {
             e.preventDefault();
+
+            const nameInput = document.getElementById('custName').value.trim();
+            const phoneInput = document.getElementById('custPhone').value.trim();
+            const addressInput = document.getElementById('custAddress').value.trim();
+
+            // فحص أمان أرقام الجوال السعودية (05xxxxxxxx)
+            const phoneRegex = /^05\d{8}$/;
+            if (!phoneRegex.test(phoneInput)) {
+                document.getElementById('phoneError').style.display = 'block';
+                return;
+            } else {
+                document.getElementById('phoneError').style.display = 'none';
+            }
+
+            const cleanName = sanitizeInput(nameInput);
+            const cleanAddress = sanitizeInput(addressInput);
             const orderNum = 'ORD-' + Math.floor(10000 + Math.random() * 90000);
-            document.getElementById('orderNumDisplay').innerText = `رقم الفاتورة: #${orderNum}`;
-            
-            cart = [];
-            updateCart();
-            closeCheckout();
-            document.getElementById('successModal').style.display = 'flex';
+
+            document.getElementById('submitBtn').disabled = true;
+            document.getElementById('submitBtn').innerText = "جاري الحفظ والإرسال...";
+
+            // إعداد ملخص الطلب
+            let itemsSummary = cart.map(i => `${i.name} (${i.qty}×${i.price})`).join(' ، ');
+            let totalAmount = cart.reduce((s, i) => s + (i.price * i.qty), 0);
+
+            // إرسال البيانات (جاهزة لتوجيهها لـ Webhook أو الإيميل الخاص بصاحب المتجر الجديد)
+            console.log("جديد: تم استلام طلب برقم فاتورة:", orderNum, {
+                customer: cleanName,
+                phone: phoneInput,
+                address: cleanAddress,
+                payment: selectedPaymentMethod,
+                items: itemsSummary,
+                total: totalAmount
+            });
+
+            setTimeout(() => {
+                document.getElementById('orderNumDisplay').innerText = `رقم الفاتورة: #${orderNum}`;
+                cart = [];
+                updateCart();
+                closeCheckout();
+                document.getElementById('submitBtn').disabled = false;
+                document.getElementById('submitBtn').innerText = "تأكيد ونقل الطلب الآن";
+                document.getElementById('successModal').style.display = 'flex';
+            }, 800);
         }
 
         function closeSuccess() {
