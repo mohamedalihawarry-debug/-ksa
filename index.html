@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>المتجر الموثوق - لوحة تحكم كاملة</title>
+    <title>المتجر الموثوق - تصوير وإضافة المنتجات</title>
     <!-- خط تاجوال -->
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
     <!-- أيقونات FontAwesome -->
@@ -139,6 +139,19 @@
         .modal-content { background: var(--bg-card); color: var(--text-color); width: 100%; max-width: 480px; border-radius: var(--radius); padding: 20px; max-height: 90vh; overflow-y: auto; }
         .modal-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color); padding-bottom: 10px; margin-bottom: 15px; }
 
+        /* زر الخروج بسهم */
+        .back-arrow-btn {
+            background: none; border: none; color: var(--text-color); font-size: 1.3rem; cursor: pointer; display: flex; align-items: center; gap: 5px; font-weight: bold;
+        }
+
+        /* الكاميرا ورفع الصور */
+        .camera-upload-box {
+            border: 2px dashed var(--border-color); border-radius: 10px; padding: 15px; text-align: center; cursor: pointer; margin-bottom: 12px; background: rgba(0,0,0,0.02);
+        }
+        .camera-upload-box i { font-size: 2rem; color: var(--primary); margin-bottom: 5px; }
+        .preview-images-container { display: flex; gap: 8px; overflow-x: auto; margin-top: 10px; }
+        .preview-img { width: 60px; height: 60px; object-fit: cover; border-radius: 6px; border: 1px solid var(--border-color); }
+
         /* معرض الصور Modal */
         .main-gallery-img { width: 100%; height: 250px; object-fit: cover; border-radius: 8px; margin-bottom: 10px; }
         .thumbnails-box { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 5px; }
@@ -161,9 +174,8 @@
         <div class="header-container">
             <div class="logo"><i class="fa-solid fa-store"></i> المتجر الموثوق</div>
             <div class="header-actions">
-                <!-- زر لوحة التحكم للإدارة -->
-                <button class="btn-icon admin-btn" onclick="openAdminModal()" title="لوحة تحكم المتجر">
-                    <i class="fa-solid fa-sliders"></i>
+                <button class="btn-icon admin-btn" onclick="openAdminModal()" title="إضافة منتج / لوحة التحكم">
+                    <i class="fa-solid fa-plus"></i>
                 </button>
                 <button class="btn-icon" onclick="toggleTheme()" title="تغيير المظهر">
                     <i class="fa-solid fa-moon" id="themeIcon"></i>
@@ -215,33 +227,33 @@
         </div>
     </footer>
 
-    <!-- نافذة عرض صور المنتج عند الضغط عليها -->
-    <div class="modal" id="galleryModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 id="galleryTitle">عرض المنتج</h3>
-                <i class="fa-solid fa-xmark" style="cursor: pointer;" onclick="closeModal('galleryModal')"></i>
-            </div>
-            <img src="" id="mainGalleryImg" class="main-gallery-img">
-            <div class="thumbnails-box" id="thumbnailsBox"></div>
-            <div style="margin-top: 15px; display: flex; justify-content: space-between; align-items: center;">
-                <b id="galleryPrice" style="font-size: 1.2rem; color: var(--secondary);"></b>
-                <button class="add-btn" id="galleryAddBtn">أضف للسلة</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- نافذة لوحة التحكم (إضافة وتعديل المنتجات) -->
+    <!-- نافذة لوحة التحكم وإضافة المنتج (محدثة بسهم الخروج والكاميرا) -->
     <div class="modal" id="adminModal">
         <div class="modal-content">
             <div class="modal-header">
-                <h3><i class="fa-solid fa-sliders"></i> لوحة إدارة المتجر</h3>
-                <i class="fa-solid fa-xmark" style="cursor: pointer;" onclick="closeModal('adminModal')"></i>
+                <!-- سهم الخروج للرجوع للمتجر -->
+                <button class="back-arrow-btn" onclick="closeModal('adminModal')">
+                    <i class="fa-solid fa-arrow-right"></i> رجوع
+                </button>
+                <h3 style="font-size: 1.1rem;"><i class="fa-solid fa-bag-shopping"></i> إضافة وتعديل المنتجات</h3>
             </div>
 
             <!-- نموذج إضافة/تعديل منتج -->
             <form id="adminForm" onsubmit="saveProduct(event)">
                 <input type="hidden" id="editProductId">
+                
+                <!-- خيار تصوير المنتج بالكاميرا أو اختيار صور -->
+                <div class="form-group">
+                    <label>صورة المنتج (التقط صورة بالكاميرا أو اختر صورة):</label>
+                    <div class="camera-upload-box" onclick="document.getElementById('cameraInput').click()">
+                        <i class="fa-solid fa-camera"></i>
+                        <p style="font-size:0.85rem; font-weight:bold;">اضغط هنا للفيسبوك أو التقاط صورة بالكاميرا</p>
+                        <input type="file" id="cameraInput" accept="image/*" capture="environment" multiple style="display:none;" onchange="handleCameraUpload(event)">
+                    </div>
+                    <!-- المعاينة للصور الملتقطة -->
+                    <div class="preview-images-container" id="previewContainer"></div>
+                </div>
+
                 <div class="form-group">
                     <label>اسم المنتج *</label>
                     <input type="text" id="prodName" required placeholder="مثال: سماعة بلوتوث">
@@ -258,16 +270,28 @@
                         <option value="watches">ساعات</option>
                     </select>
                 </div>
-                <div class="form-group">
-                    <label>روابط الصور (ضع رابطاً في كل سطر لأكثر من صورة) *</label>
-                    <textarea id="prodImages" rows="3" style="width:100%; padding:8px; border-radius:8px; border:1px solid var(--border-color); background:var(--bg-card); color:var(--text-color);" required placeholder="https://image1.com&#10;https://image2.com"></textarea>
-                </div>
-                <button type="submit" class="btn-success" id="adminSubmitBtn">إضافة المنتج للمتجر</button>
+                <button type="submit" class="btn-success" id="adminSubmitBtn">نشر المنتج في المتجر</button>
             </form>
 
             <hr style="margin: 20px 0; border: none; border-top: 1px solid var(--border-color);">
-            <h4>قائمة المنتجات الحالية (للتحكم والتعديل):</h4>
+            <h4>المنتجات الحالية بالمتجر:</h4>
             <div id="adminProductsList" style="margin-top: 10px;"></div>
+        </div>
+    </div>
+
+    <!-- نافذة عرض صور المنتج عند الضغط عليها -->
+    <div class="modal" id="galleryModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="galleryTitle">عرض المنتج</h3>
+                <i class="fa-solid fa-xmark" style="cursor: pointer;" onclick="closeModal('galleryModal')"></i>
+            </div>
+            <img src="" id="mainGalleryImg" class="main-gallery-img">
+            <div class="thumbnails-box" id="thumbnailsBox"></div>
+            <div style="margin-top: 15px; display: flex; justify-content: space-between; align-items: center;">
+                <b id="galleryPrice" style="font-size: 1.2rem; color: var(--secondary);"></b>
+                <button class="add-btn" id="galleryAddBtn">أضف للسلة</button>
+            </div>
         </div>
     </div>
 
@@ -306,17 +330,15 @@
     </div>
 
     <script>
-        // المنتجات الافتراضية مع دعم الأقسام والصور المتعددة
         const defaultProducts = [
-            { id: 1, name: "سماعة لاسلكية احترافية", price: 199, category: "accessories", images: ["https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=600", "https://images.unsplash.com/photo-1484704849700-f032a568e944?w=600"] },
-            { id: 2, name: "ساعة رقمية رياضية", price: 249, category: "watches", images: ["https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=600"] },
-            { id: 3, name: "شاحن سريع 65 واط", price: 89, category: "accessories", images: ["https://images.unsplash.com/photo-1583863788434-e58a36330cf0?w=600"] }
+            { id: 1, name: "سماعة لاسلكية احترافية", price: 199, category: "accessories", images: ["https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=600"] },
+            { id: 2, name: "ساعة رقمية رياضية", price: 249, category: "watches", images: ["https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=600"] }
         ];
 
-        // جلب المنتجات من الذاكرة المحلية أو استرجاع الافتراضية
         let products = JSON.parse(localStorage.getItem('myStoreProducts')) || defaultProducts;
         let cart = [];
         let currentCategory = 'all';
+        let uploadedImagesBase64 = []; // مصفوفة لتخزين الصور الملتقطة
 
         function saveProductsToStorage() {
             localStorage.setItem('myStoreProducts', JSON.stringify(products));
@@ -350,7 +372,66 @@
             `).join('');
         }
 
-        /* --- نظام معرض الصور الفردي للمنتج --- */
+        /* --- معالجة التقاط الصور بالكاميرا --- */
+        function handleCameraUpload(e) {
+            const files = e.target.files;
+            if(!files || files.length === 0) return;
+
+            Array.from(files).forEach(file => {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    uploadedImagesBase64.push(event.target.result);
+                    updateImagesPreview();
+                };
+                reader.readAsDataURL(file);
+            });
+        }
+
+        function updateImagesPreview() {
+            const container = document.getElementById('previewContainer');
+            container.innerHTML = uploadedImagesBase64.map(imgSrc => `
+                <img src="${imgSrc}" class="preview-img">
+            `).join('');
+        }
+
+        /* --- حفظ وإضافة المنتجات --- */
+        function saveProduct(e) {
+            e.preventDefault();
+            const id = document.getElementById('editProductId').value;
+            const name = document.getElementById('prodName').value;
+            const price = parseFloat(document.getElementById('prodPrice').value);
+            const category = document.getElementById('prodCategory').value;
+
+            // التأكد من وجود صورة واحدة على الأقل
+            let finalImages = uploadedImagesBase64.length > 0 ? uploadedImagesBase64 : ["https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=600"];
+
+            if(id) {
+                const prod = products.find(p => p.id == id);
+                prod.name = name;
+                prod.price = price;
+                prod.category = category;
+                if(uploadedImagesBase64.length > 0) prod.images = uploadedImagesBase64;
+            } else {
+                const newProd = { id: Date.now(), name, price, category, images: finalImages };
+                products.push(newProd);
+            }
+
+            saveProductsToStorage();
+            renderProducts();
+            renderAdminList();
+            
+            // إعادة ضبط النموذج
+            document.getElementById('adminForm').reset();
+            uploadedImagesBase64 = [];
+            document.getElementById('previewContainer').innerHTML = '';
+            document.getElementById('editProductId').value = '';
+            document.getElementById('adminSubmitBtn').innerText = 'نشر المنتج في المتجر';
+            
+            alert("تم نشر المنتج بنجاح في المتجر!");
+            closeModal('adminModal');
+        }
+
+        /* --- معرض الصور للمنتج --- */
         function openGallery(id) {
             const prod = products.find(p => p.id === id);
             document.getElementById('galleryTitle').innerText = prod.name;
@@ -376,7 +457,7 @@
             el.classList.add('active');
         }
 
-        /* --- تصفية الأقسام --- */
+        /* --- الأقسام والبحث --- */
         function filterCategory(cat, btn) {
             currentCategory = cat;
             document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
@@ -386,7 +467,7 @@
 
         function filterProducts() { renderProducts(); }
 
-        /* --- إدارة لوحة التحكم (التحكم بدون GitHub) --- */
+        /* --- لوحة التحكم --- */
         function openAdminModal() {
             renderAdminList();
             document.getElementById('adminModal').style.display = 'flex';
@@ -405,44 +486,14 @@
             `).join('');
         }
 
-        function saveProduct(e) {
-            e.preventDefault();
-            const id = document.getElementById('editProductId').value;
-            const name = document.getElementById('prodName').value;
-            const price = parseFloat(document.getElementById('prodPrice').value);
-            const category = document.getElementById('prodCategory').value;
-            const imagesRaw = document.getElementById('prodImages').value;
-            const images = imagesRaw.split('\n').map(i => i.trim()).filter(i => i !== '');
-
-            if(id) {
-                // تعديل منتج قائم
-                const prod = products.find(p => p.id == id);
-                prod.name = name;
-                prod.price = price;
-                prod.category = category;
-                prod.images = images;
-            } else {
-                // إضافة منتج جديد
-                const newProd = { id: Date.now(), name, price, category, images };
-                products.push(newProd);
-            }
-
-            saveProductsToStorage();
-            renderProducts();
-            renderAdminList();
-            document.getElementById('adminForm').reset();
-            document.getElementById('editProductId').value = '';
-            document.getElementById('adminSubmitBtn').innerText = 'إضافة المنتج للمتجر';
-            alert("تم حفظ التغييرات بنجاح!");
-        }
-
         function editProduct(id) {
             const p = products.find(prod => prod.id === id);
             document.getElementById('editProductId').value = p.id;
             document.getElementById('prodName').value = p.name;
             document.getElementById('prodPrice').value = p.price;
             document.getElementById('prodCategory').value = p.category;
-            document.getElementById('prodImages').value = p.images.join('\n');
+            uploadedImagesBase64 = [...p.images];
+            updateImagesPreview();
             document.getElementById('adminSubmitBtn').innerText = 'تحديث بيانات المنتج';
         }
 
@@ -455,7 +506,7 @@
             }
         }
 
-        /* --- السلة والدفع --- */
+        /* --- السلة والخدمات --- */
         function addToCart(id) {
             const item = cart.find(c => c.id === id);
             if(item) { item.qty++; } 
@@ -489,9 +540,7 @@
             cart = []; updateCart(); closeModal('checkoutModal');
         }
 
-        function toggleTheme() {
-            document.body.classList.toggle('dark-theme');
-        }
+        function toggleTheme() { document.body.classList.toggle('dark-theme'); }
 
         renderProducts();
     </script>
